@@ -427,11 +427,20 @@ class VideoPlayerController extends ValueNotifier<VideoPlayerValue> {
     if (_isDisposed) {
       return;
     }
-    if (position > value.duration) {
+    /*if (position > value.duration) {
       position = value.duration;
     } else if (position < const Duration()) {
       position = const Duration();
+    }*/
+
+    if(Platform.isAndroid){
+      if (position > value.duration) {
+        position = value.duration;
+      } else if (position < const Duration()) {
+        position = const Duration();
+      }
     }
+
     await _videoPlayerPlatform.seekTo(_textureId, position);
     _updatePosition(position);
   }
