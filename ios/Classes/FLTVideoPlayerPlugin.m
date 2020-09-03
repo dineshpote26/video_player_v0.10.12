@@ -350,9 +350,16 @@ static inline CGFloat radiansToDegrees(CGFloat radians) {
 }
 
 - (void)seekTo:(int)location {
-  [_player seekToTime:CMTimeMake(location, 1000)
-      toleranceBefore:kCMTimeZero
-       toleranceAfter:kCMTimeZero];
+    NSLog(@"seekTo location: %d", location);
+//  [_player seekToTime:CMTimeMake(location, 1000)
+  //    toleranceBefore:kCMTimeZero
+  //     toleranceAfter:kCMTimeZero];
+  [_player seekToTime:CMTimeMake(location, 1000) toleranceBefore:kCMTimeZero toleranceAfter:kCMTimeZero completionHandler:^(BOOL finished) {
+            NSLog(@"finished: %d", finished);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self->_player play];
+            });
+        }];
 }
 
 - (void)setIsLooping:(bool)isLooping {
