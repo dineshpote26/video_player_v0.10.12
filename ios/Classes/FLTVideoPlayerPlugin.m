@@ -163,7 +163,11 @@ static inline CGFloat radiansToDegrees(CGFloat radians) {
 }
 
 - (instancetype)initWithURL:(NSURL*)url frameUpdater:(FLTFrameUpdater*)frameUpdater {
-  AVPlayerItem* item = [AVPlayerItem playerItemWithURL:url];
+  NSMutableDictionary * headers = [NSMutableDictionary dictionary];
+  [headers setObject:@"JioTv.Learn" forKey:@"User-Agent"];
+  AVURLAsset * asset = [AVURLAsset URLAssetWithURL:url options:@{@"AVURLAssetHTTPHeaderFieldsKey" : headers}];
+  AVPlayerItem * item = [AVPlayerItem playerItemWithAsset:asset];
+  //AVPlayerItem* item = [AVPlayerItem playerItemWithURL:url];
   return [self initWithPlayerItem:item frameUpdater:frameUpdater];
 }
 
